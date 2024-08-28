@@ -1,6 +1,6 @@
-# 📚 to-read_app. 📖
+# 📚 to_read_app. 📖
 
-Welcome to the to-read_app.! 🎉✨ This is a simple and interactive web application built with React and TypeScript that helps you keep track of the books 📚 or articles 📰 you want to read. 
+Welcome to the to_read_app.! 🎉✨ This is a simple and interactive web application built with React and TypeScript that helps you keep track of the books 📚 or articles 📰 you want to read. 
 
 ## 🚀 Features
 
