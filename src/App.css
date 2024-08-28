@@ -1,78 +1,108 @@
-/* Center the main content */
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+	background: #003366;
+}
+
 .App {
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative; /* To position child elements relative to the .App container */
+	text-align: center;
+	max-width: 600px;
+	width: 100%;
+	background: whitesmoke;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	animation: border-shiver 2s infinite;
 }
 
-/* Style the unordered list to remove bullets and padding */
+@keyframes border-shiver {
+	0% {
+		border-radius: 10px;
+	}
+	50% {
+		border-radius: 12px;
+	}
+	100% {
+		border-radius: 10px;
+	}
+}
+
 ul {
-  list-style-type: none;
-  padding: 0;
+	list-style-type: none;
+	padding: 0;
 }
 
-/* Style the list items */
 li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 10px 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 10px 0;
+	background-color: #FFFFFF;
+	border-radius: 8px;
+	padding: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Style the title container with shiver effect */
 h1 {
-  color: #C8A2C8; /* Lilac color */
-  animation: shiver 1s infinite alternate; /* Shiver effect */
-  display: inline-block; /* Allows the title to shiver as a whole block */
+	color: #C8A2C8;
+	animation: shiver 1s infinite alternate;
+	display: inline-block;
+	margin-bottom: 20px;
 }
 
-/* Style each letter of the title to jump */
 h1 span {
-  display: inline-block;
-  animation: jump 0.6s infinite;
-  animation-delay: calc(0.1s * var(--index)); /* Staggered jump effect */
+	display: inline-block;
+	animation: jump 0.6s infinite;
+	animation-delay: calc(0.1s * var(--index));
 }
 
-/* Style for the checkbox count to be lilac and shiver */
 .checkbox-count {
-  color: #C8A2C8; /* Lilac color */
-  animation: shiver 1s infinite alternate; /* Reuse shiver effect */
-  display: inline-block; /* Allows the count to shiver */
-  position: absolute; /* Position it absolutely within the App container */
-  top: 10px; /* Position from the top */
-  right: 10px; /* Position from the right */
+	color: #C8A2C8;
+	animation: shiver 1s infinite alternate;
+	display: inline-block;
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
 
-/* Define the shiver animation */
 @keyframes shiver {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(1deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(1deg);
+	}
 }
 
-/* Define the jump animation */
 @keyframes jump {
-  0%, 100% {
-    transform: translateY(0); /* Original position */
-  }
-  50% {
-    transform: translateY(-10px); /* Move the letter up */
-  }
+	0%, 100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
 }
 
-/* Style input and button */
 input[type="checkbox"] {
-  margin-right: 10px; /* Add space between checkbox and text */
-  accent-color: #C8A2C8; /* Lilac color for the checkbox */
-  animation: shiver 1s infinite alternate; /* Add shiver effect */
+	margin-right: 10px;
+	accent-color: #C8A2C8;
+	animation: shiver 1s infinite alternate;
 }
 
 button {
-  margin-left: 10px; /* Move button a bit to the right of input */
-  padding: 5px 10px; /* Add some padding for a nicer button look */
-  cursor: pointer; /* Change cursor to pointer for better UX */
+	margin-left: 10px;
+	padding: 5px 10px;
+	cursor: pointer;
+	background-color: #C8A2C8;
+	color: #FFFFFF;
+	border: none;
+	border-radius: 5px;
+	transition: background-color 0.3s;
+}
+
+button:hover {
+	background-color: #A67D99;
 }
