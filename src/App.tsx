@@ -52,9 +52,9 @@ const App: React.FC = () => {
 					</span>
 				))}
 			</h1>
-			<p className="checkbox-count">Completed: {completedCount}</p>
 			<AddToread addToread={addToread} />
 			<ToreadList toreads={toreads} toggleToread={toggleToread} deleteToread={deleteToread} />
+			<p className="completed-count">completed: {completedCount}</p>
 		</div>
 	);
 };
