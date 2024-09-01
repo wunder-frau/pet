@@ -8,21 +8,21 @@ const App: React.FC = () => {
 	// const [toreads, setToreads] = useState<Toread[]>([]);
 
 	const [toreads, setToreads] = useState<Toread[]>(() => {
-    const storedToreads = localStorage.getItem('toreads');
-    if (storedToreads) {
-      try {
-        return JSON.parse(storedToreads) as Toread[];
-      } catch (e) {
-        console.error('Failed to parse toreads from local storage:', e);
-      }
-    }
-    return [];
-  });
+		const storedToreads = localStorage.getItem('toreads');
+		if (storedToreads) {
+			try {
+				return JSON.parse(storedToreads) as Toread[];
+			} catch (e) {
+				console.error('Failed to parse toreads from local storage:', e);
+			}
+		}
+		return [];
+	});
 
-  // Save to-read list to local storage whenever it changes
-  useEffect(() => {
-    localStorage.setItem('toreads', JSON.stringify(toreads));
-  }, [toreads]);
+	// Save to-read list to local storage whenever it changes
+	useEffect(() => {
+		localStorage.setItem('toreads', JSON.stringify(toreads));
+	}, [toreads]);
 
 	const addToread = (text: string) => {
 		const newToread: Toread = {
