@@ -24,11 +24,11 @@ const ToreadItem: React.FC<ToreadItemProps> = ({ toread, toggleToread, deleteTor
 						src={toread.imageUrl}
 						alt={toread.text}
 						style={{
-							width: '300px',
-							height: '400px',
+							width: '200px',
+							height: '200px',
 							objectFit: 'cover',
 							display: 'block',
-						}} 
+						}}
 					/>
 				</div>
 				)}
