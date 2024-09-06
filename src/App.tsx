@@ -24,12 +24,14 @@ const App: React.FC = () => {
 		localStorage.setItem('toreads', JSON.stringify(toreads));
 	}, [toreads]);
 
-	const addToread = (text: string) => {
+	const addToread = (text: string, imageUrl?: string) => {
 		const newToread: Toread = {
 			id: Date.now(),
 			text,
 			completed: false,
+			imageUrl,
 		};
+		console.log("New Toread Item: ", newToread); 
 		setToreads([...toreads, newToread]);
 	}
 	const toggleToread = (id: number) => {

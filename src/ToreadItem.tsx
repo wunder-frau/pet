@@ -17,7 +17,21 @@ const ToreadItem: React.FC<ToreadItemProps> = ({ toread, toggleToread, deleteTor
 					onChange={() => toggleToread(toread.id)}
 					/>
 				{toread.text}
-			</label>
+			</label> 
+			{toread.imageUrl && (
+				<div>
+					<img 
+						src={toread.imageUrl}
+						alt={toread.text}
+						style={{
+							width: '300px',
+							height: '400px',
+							objectFit: 'cover',
+							display: 'block',
+						}} 
+					/>
+				</div>
+				)}
 			<button onClick={() => deleteToread(toread.id)}>Delete</button>
 		</li>
 	);
