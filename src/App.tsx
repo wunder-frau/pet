@@ -6,7 +6,7 @@ import AddToread from './AddToread';
 
 const App: React.FC = () => {
 	// const [toreads, setToreads] = useState<Toread[]>([]);
-
+	const [count, setCount] = useState(0);
 	const [toreads, setToreads] = useState<Toread[]>(() => {
 		const storedToreads = localStorage.getItem('toreads');
 		if (storedToreads) {
@@ -57,6 +57,11 @@ const App: React.FC = () => {
 			<AddToread addToread={addToread} />
 			<ToreadList toreads={toreads} toggleToread={toggleToread} deleteToread={deleteToread} />
 			<p className="completed-count">completed: {completedCount}</p>
+			<p>
+				<button onClick={() => setCount(count => count + 1)}>
+					count is {count}
+				</button>
+			</p>
 		</div>
 	);
 };
