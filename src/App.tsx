@@ -3,9 +3,9 @@ import './App.css';
 import { Toread } from './types';
 import ToreadList from './ToreadList';
 import AddToread from './AddToread';
+import Bookshelf from './Bookshelf';
 
 const App: React.FC = () => {
-	// const [toreads, setToreads] = useState<Toread[]>([]);
 	const [count, setCount] = useState(0);
 	const [toreads, setToreads] = useState<Toread[]>(() => {
 		const storedToreads = localStorage.getItem('toreads');
@@ -19,7 +19,6 @@ const App: React.FC = () => {
 		return [];
 	});
 
-	// Save to-read list to local storage whenever it changes
 	useEffect(() => {
 		localStorage.setItem('toreads', JSON.stringify(toreads));
 	}, [toreads]);
@@ -46,23 +45,26 @@ const App: React.FC = () => {
 	const title = 'to_read_app.';
 	const completedCount = toreads.filter(toread => toread.completed).length;
 	return (
-		<div className="App">
-			<h1>
-				{title.split('').map((letter, index) => (
-					<span key={index} style={{ '--index': index } as React.CSSProperties}>
-						{letter}
-					</span>
-				))}
-			</h1>
-			<AddToread addToread={addToread} />
-			<ToreadList toreads={toreads} toggleToread={toggleToread} deleteToread={deleteToread} />
-			<p className="completed-count">completed: {completedCount}</p>
-			<p>
-				<button onClick={() => setCount(count => count + 1)}>
-					count is {count}
-				</button>
-			</p>
-		</div>
+		<>
+			<Bookshelf books={toreads} />
+			<div className="App">
+				<h1>
+					{title.split('').map((letter, index) => (
+						<span key={index} style={{ '--index': index } as React.CSSProperties}>
+							{letter}
+						</span>
+					))}
+				</h1>
+				<AddToread addToread={addToread} />
+				<ToreadList toreads={toreads} toggleToread={toggleToread} deleteToread={deleteToread} />
+				<p className="completed-count">completed: {completedCount}</p>
+				<p>
+					<button onClick={() => setCount(count => count + 1)}>
+						count is {count}
+					</button>
+				</p>
+			</div>
+		</>
 	);
 };
 
