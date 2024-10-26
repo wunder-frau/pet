@@ -49,7 +49,6 @@ const App: React.FC = () => {
 	return (
 		<>
 			<Bookshelf books={toreads} />
-			<ReadingEstimator />
 			<div className="App">
 				<h1>
 					{title.split('').map((letter, index) => (
@@ -67,6 +66,7 @@ const App: React.FC = () => {
 					</button>
 				</p>
 			</div>
+			<ReadingEstimator />
 		</>
 	);
 };
