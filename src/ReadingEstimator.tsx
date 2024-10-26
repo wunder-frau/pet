@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import InputField from './InputField';
 
 const ReadingEstimator: React.FC = () => {
   const [pages, setPages] = useState<number | ''>('');
@@ -14,37 +15,27 @@ const ReadingEstimator: React.FC = () => {
     }
   }
   return (
-    <div className="reading-estimator">
-      <h3>Reading Estimator</h3>
-      <div>
-        <label>
-          Number of pages
-          <input
-            type="number"
-            value={pages}
-            onChange={(e) => setPages(e.target.value ? parseInt(e.target.value) : '')}
-            min="1"
-          />
-        </label>
-      </div>
-      <div>
-      <label>
-        Number of Days:
-        <input
-          type="number"
-          value={days}
-          onChange={(e) => setDays(e.target.value ? parseInt(e.target.value) : '')}
-          min="1"
-        />
-      </label>
-    </div>
+  <div className="reading-estimator">
+    <h3>Reading Estimator</h3>
+    <InputField
+      label="Number of Pages:"
+      value={pages}
+      onChange={setPages}
+      min={1}
+    />
+    <InputField
+      label="Number of Days:"
+      value={days}
+      onChange={setDays}
+      min={1}
+    />
     <button onClick={calculatePagesPerDay}>Calculate</button>
     {pagesPerDay !== null && (
       <div className="result">
         <p>You need to read <strong>{pagesPerDay}</strong> pages per day to finish your book in the specified time.</p>
       </div>
     )}
-    </div>
+  </div>
   );
 };
 
