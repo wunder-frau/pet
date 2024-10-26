@@ -4,6 +4,8 @@ import { Toread } from './types';
 import ToreadList from './ToreadList';
 import AddToread from './AddToread';
 import Bookshelf from './Bookshelf';
+import ReadingEstimator from './ReadingEstimator';
+
 
 const App: React.FC = () => {
 	const [count, setCount] = useState(0);
@@ -47,6 +49,7 @@ const App: React.FC = () => {
 	return (
 		<>
 			<Bookshelf books={toreads} />
+			<ReadingEstimator />
 			<div className="App">
 				<h1>
 					{title.split('').map((letter, index) => (
