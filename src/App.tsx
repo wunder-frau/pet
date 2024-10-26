@@ -21,6 +21,8 @@ const App: React.FC = () => {
 		return [];
 	});
 
+	const [isEstimatorVisible, setEstimatorVisible] = useState(false);
+
 	useEffect(() => {
 		localStorage.setItem('toreads', JSON.stringify(toreads));
 	}, [toreads]);
@@ -49,6 +51,16 @@ const App: React.FC = () => {
 	return (
 		<>
 			<Bookshelf books={toreads} />
+			{isEstimatorVisible && (
+				<div className="modal">
+					<div className="modal-content">
+						<button className="close-button" onClick={() => setEstimatorVisible(false)}>
+							&times;
+						</button>
+						<ReadingEstimator />
+					</div>
+				</div>
+			)}
 			<div className="App">
 				<h1>
 					{title.split('').map((letter, index) => (
@@ -57,6 +69,9 @@ const App: React.FC = () => {
 						</span>
 					))}
 				</h1>
+				<button onClick={() => setEstimatorVisible(true)} className="open-estimator-button">
+				Open Reading Estimator
+				</button>
 				<AddToread addToread={addToread} />
 				<ToreadList toreads={toreads} toggleToread={toggleToread} deleteToread={deleteToread} />
 				<p className="completed-count">completed: {completedCount}</p>
@@ -66,7 +81,6 @@ const App: React.FC = () => {
 					</button>
 				</p>
 			</div>
-			<ReadingEstimator />
 		</>
 	);
 };
