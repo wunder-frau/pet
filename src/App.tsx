@@ -4,6 +4,8 @@ import { Toread } from './types';
 import ToreadList from './ToreadList';
 import AddToread from './AddToread';
 import Bookshelf from './Bookshelf';
+import ReadingEstimator from './ReadingEstimator';
+
 
 const App: React.FC = () => {
 	const [count, setCount] = useState(0);
@@ -18,6 +20,25 @@ const App: React.FC = () => {
 		}
 		return [];
 	});
+
+	const [isEstimatorVisible, setEstimatorVisible] = useState(false);
+
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.key === "Escape") {
+			setEstimatorVisible(false);
+		}
+	};
+
+	useEffect(() => {
+		if (isEstimatorVisible) {
+			document.addEventListener("keydown", handleKeyDown);
+		} else {
+			document.removeEventListener("keydown", handleKeyDown);
+		}
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [isEstimatorVisible]);
 
 	useEffect(() => {
 		localStorage.setItem('toreads', JSON.stringify(toreads));
@@ -47,6 +68,16 @@ const App: React.FC = () => {
 	return (
 		<>
 			<Bookshelf books={toreads} />
+			{isEstimatorVisible && (
+				<div className="modal">
+					<div className="modal-content">
+						<button className="close-button" onClick={() => setEstimatorVisible(false)}>
+							&times;
+						</button>
+						<ReadingEstimator />
+					</div>
+				</div>
+			)}
 			<div className="App">
 				<h1>
 					{title.split('').map((letter, index) => (
@@ -55,6 +86,9 @@ const App: React.FC = () => {
 						</span>
 					))}
 				</h1>
+				<button onClick={() => setEstimatorVisible(true)} className="open-estimator-button">
+				Open Reading Estimator
+				</button>
 				<AddToread addToread={addToread} />
 				<ToreadList toreads={toreads} toggleToread={toggleToread} deleteToread={deleteToread} />
 				<p className="completed-count">completed: {completedCount}</p>
