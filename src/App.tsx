@@ -23,6 +23,23 @@ const App: React.FC = () => {
 
 	const [isEstimatorVisible, setEstimatorVisible] = useState(false);
 
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.key === "Escape") {
+			setEstimatorVisible(false);
+		}
+	};
+
+	useEffect(() => {
+		if (isEstimatorVisible) {
+			document.addEventListener("keydown", handleKeyDown);
+		} else {
+			document.removeEventListener("keydown", handleKeyDown);
+		}
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [isEstimatorVisible]);
+
 	useEffect(() => {
 		localStorage.setItem('toreads', JSON.stringify(toreads));
 	}, [toreads]);
