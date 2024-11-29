@@ -227,3 +227,21 @@ button:hover {
   background-color: #8CA661;
 }
 
+
+/* In your CSS file (e.g., App.css or another stylesheet) */
+
+.app-container {
+	display: flex;
+	justify-content: center; /* Center the bookshelf container */
+	align-items: center; /* Vertically center */
+	height: 100vh; /* Full viewport height */
+  }
+  
+  .bookshelf-container {
+	width: 800px; /* Set fixed width for the container */
+	height: 600px; /* Set fixed height for the container */
+	position: relative; /* Ensure the 3D canvas fits inside */
+	border: 1px solid #ccc; /* Optional: add a border to the container */
+	overflow: hidden; /* Ensure content doesn't overflow */
+  }
+  
