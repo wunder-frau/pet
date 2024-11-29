@@ -30,10 +30,13 @@ code {
 .bookshelf {
   margin: 20px auto;
   width: 100%;
-  max-width: 600px;
+  max-width: 600px;  /* Limit the container width */
   padding: 20px;
   text-align: center;
+  display: flex;
+  justify-content: center;  /* Center the 3D canvas */
 }
+
 
 .shelf {
   display: flex;
