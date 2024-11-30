@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Toread } from './types';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader'; // Import FontLoader
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry'; // Import TextGeometry
 
 interface ThreeBookshelfProps {
   books: Toread[];
@@ -42,7 +44,7 @@ const ThreeBookshelf: React.FC<ThreeBookshelfProps> = ({ books }) => {
 
     const booksArray: THREE.Mesh[] = [];
     books.forEach((book, index) => {
-      const geometry = new THREE.BoxGeometry(1, 1.5, 0.3);
+      const geometry = new THREE.BoxGeometry(1, 2, 0.5);
       const material = new THREE.MeshStandardMaterial({
         color: book.completed ? 0x00ff00 : 0xff0000,
       });
@@ -54,11 +56,44 @@ const ThreeBookshelf: React.FC<ThreeBookshelfProps> = ({ books }) => {
         completed: book.completed,
       };
 
+      // Create 3D text for the book title
+      const fontLoader = new FontLoader();
+      fontLoader.load(
+        'https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', // Font URL
+        (font) => {
+          const textGeometry = new TextGeometry(book.text, {
+            font: font,
+            size: 0.2,
+            depth: 0.02, // This controls the thickness of the text
+          });
+
+          const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+          // Compute the bounding box of the text geometry
+          textGeometry.computeBoundingBox();
+
+          // Ensure the bounding box is defined before accessing
+          if (textGeometry.boundingBox) {
+            const textWidth = textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x;
+            const offsetX = -textWidth / 2; // Offset to center the text horizontally
+
+            // Position the text on the cover of the book (front face)
+            textMesh.position.set(
+              cube.position.x + offsetX,               // Center text horizontally on the cube
+              cube.position.y,                          // Align with the cube's y position (center vertically)
+              cube.position.z + 0.5                    // Adjust Z position so text is in front of the book
+            );
+          }
+
+          scene.add(textMesh);
+        }
+      );
       scene.add(cube);
       booksArray.push(cube);
     });
 
-    const maxWidth = 600;
+    const maxWidth = 800;
     const maxHeight = 600;
 
     const onWindowResize = () => {
@@ -72,22 +107,9 @@ const ThreeBookshelf: React.FC<ThreeBookshelfProps> = ({ books }) => {
 
     onWindowResize();
     window.addEventListener('resize', onWindowResize);
-    const gravity = -0.1;
-    let velocities = booksArray.map(() => 0); // Array to store velocities for each book
-    const groundLevel = -5; // Y position for the ground
 
     const animate = () => {
       requestAnimationFrame(animate);
-
-      booksArray.forEach((cube, index) => {
-        if (cube.position.y > groundLevel) {
-          velocities[index] += gravity; // Update velocity for each book
-          cube.position.y += velocities[index]; // Apply velocity to position
-        } else {
-          velocities[index] = 0; // Stop falling once the book hits the ground
-          cube.position.y = groundLevel; // Ensure cube doesn't fall through the ground
-        }
-      });
 
       controls.update();
       renderer.render(scene, camera);

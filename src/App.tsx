@@ -5,8 +5,8 @@ import ToreadList from './ToreadList';
 import AddToread from './AddToread';
 import Bookshelf from './Bookshelf';
 import ReadingEstimator from './ReadingEstimator';
-//import ThreeBookshelf from './ThreeBookshelf';
-import BookTest from './BookTest';
+import ThreeBookshelf from './ThreeBookshelf';
+//import BookTest from './BookTest';
 
 const App: React.FC = () => {
 	const [count, setCount] = useState(0);
@@ -68,10 +68,10 @@ const App: React.FC = () => {
 	const completedCount = toreads.filter(toread => toread.completed).length;
 	return (
 		<>
-			<div className="bookshelf">
-				{/* <ThreeBookshelf books={toreads} /> */}
-				<BookTest/>
-			</div>
+			{/* <div className="bookshelf"> */}
+				<ThreeBookshelf books={toreads} />
+				{/* <BookTest/> */}
+			{/* </div> */}
 			<Bookshelf books={toreads} />
 			{isEstimatorVisible && (
 				<div className="modal">
