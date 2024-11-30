@@ -5,8 +5,8 @@ import ToreadList from './ToreadList';
 import AddToread from './AddToread';
 import Bookshelf from './Bookshelf';
 import ReadingEstimator from './ReadingEstimator';
-import ThreeBookshelf from './ThreeBookshelf';
-//import BookTest from './BookTest';
+// import ThreeBookshelf from './ThreeBookshelf';
+import BookTest from './BookTest';
 
 const App: React.FC = () => {
 	const [count, setCount] = useState(0);
@@ -21,6 +21,12 @@ const App: React.FC = () => {
 		}
 		return [];
 	});
+
+	useEffect(() => {
+		console.log('Current count:', count);
+		console.log('Current toreads:', toreads);
+	  }, [count, toreads]);
+
 
 	const [isEstimatorVisible, setEstimatorVisible] = useState(false);
 
@@ -69,8 +75,8 @@ const App: React.FC = () => {
 	return (
 		<>
 			{/* <div className="bookshelf"> */}
-				<ThreeBookshelf books={toreads} />
-				{/* <BookTest/> */}
+				{/* <ThreeBookshelf books={toreads} /> */}
+				<BookTest/>
 			{/* </div> */}
 			<Bookshelf books={toreads} />
 			{isEstimatorVisible && (

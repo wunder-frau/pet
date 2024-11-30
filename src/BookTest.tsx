@@ -14,14 +14,18 @@ const Book: React.FC = () => {
     console.log('Scene:', scene);
 
     // Camera
-    const camera = new THREE.PerspectiveCamera(75, mountNode.clientWidth / mountNode.clientHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(60, mountNode.clientWidth / mountNode.clientHeight, 0.1, 1000);
+
+    //const camera = new THREE.PerspectiveCamera(75, mountNode.clientWidth / mountNode.clientHeight, 0.1, 1000);
     camera.position.set(0, 0, 5);
     console.log('Camera initial position:', camera.position);
 
     // Renderer
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true }); // Enable antialiasing for smoother edges
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(mountNode.clientWidth, mountNode.clientHeight);
     renderer.setClearColor(0x000000, 0);
+    renderer.shadowMap.enabled = true;
     mountNode.appendChild(renderer.domElement);
 
     // Lights
@@ -34,26 +38,28 @@ const Book: React.FC = () => {
 
     // Load local texture (from the public directory)
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/images/2Taschen_TH.jpg');  // Path relative to the public folder
-
+    const texture = textureLoader.load('/images/2Taschen_TH.jpg', (tex) => {
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    });
     // Geometry & Materials for Book
-    const geometry = new THREE.BoxGeometry(3, 4, 0.2);
+    const geometry = new THREE.BoxGeometry(3, 4, 0.1);
     const materials = [
-        new THREE.MeshStandardMaterial({ color: 0xff6347 }), // Back cover
-        new THREE.MeshStandardMaterial({ color: 0xffffff }), // Spine
-        new THREE.MeshStandardMaterial({ color: 0xffffff }), // Edges
-        new THREE.MeshStandardMaterial({ color: 0x555555 }), // Top
-        new THREE.MeshStandardMaterial({ map: texture }), // Front cover (with texture)
-      new THREE.MeshStandardMaterial({ color: 0xffffff }), // Bottom
-    ];
+        new THREE.MeshStandardMaterial({ color: 0xff6347, roughness: 0.8, metalness: 0.1 }), // Back cover
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6, metalness: 0.1 }), // Spine
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.2 }), // Edges
+        new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.5, metalness: 0.2 }), // Top
+        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7, metalness: 0.2 }),    // Front cover
+        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8, metalness: 0.1 }), // Bottom
+      ];
     const book = new THREE.Mesh(geometry, materials);
+
     scene.add(book);
     console.log('Book mesh:', book);
 
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-      book.rotation.y += 0.01;
+     // book.rotation.y += 0.01;
       renderer.render(scene, camera);
     };
     animate();
@@ -86,14 +92,9 @@ const Book: React.FC = () => {
         ref={mountRef}
         style={{
           flex: '1',  // Makes the Three.js container take the remaining height
-          maxHeight: '600px', // You can limit the height if needed
+          maxHeight: '900px', // You can limit the height if needed
         }}
       ></div>
-      <div style={{ padding: '10px', background: '#f0f0f0' }}>
-        {/* Add content here for the rest of the app */}
-        <h2>Rest of the App</h2>
-        <p>This is where the rest of your app will go, below the 3D Book.</p>
-      </div>
     </div>
   );
 };
