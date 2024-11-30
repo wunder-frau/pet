@@ -59,7 +59,7 @@ const Book: React.FC = () => {
     // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
-     // book.rotation.y += 0.01;
+      book.rotation.y += 0.01;
       renderer.render(scene, camera);
     };
     animate();
