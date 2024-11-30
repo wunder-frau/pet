@@ -29,27 +29,32 @@ const Book: React.FC = () => {
     mountNode.appendChild(renderer.domElement);
 
     // Lights
-    const light = new THREE.PointLight(0xffffff, 1);
+    const light = new THREE.PointLight(0xffffff, 1.5);
     light.position.set(5, 5, 5);
     scene.add(light);
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
 
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(-3, 5, 5);
+    scene.add(directionalLight);
     // Load local texture (from the public directory)
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/images/2Taschen_TH.jpg', (tex) => {
+    const texture = textureLoader.load('/images/5.jpg', (tex) => {
       tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     });
     // Geometry & Materials for Book
-    const geometry = new THREE.BoxGeometry(3, 4, 0.1);
+    const geometry = new THREE.BoxGeometry(3, 4, 0.3);
     const materials = [
         new THREE.MeshStandardMaterial({ color: 0xff6347, roughness: 0.8, metalness: 0.1 }), // Back cover
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6, metalness: 0.1 }), // Spine
+        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
+        // new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6, metalness: 0.1 }), // Spine
         new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.2 }), // Edges
         new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.5, metalness: 0.2 }), // Top
-        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.7, metalness: 0.2 }),    // Front cover
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8, metalness: 0.1 }), // Bottom
+        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),    // Front cover
+        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
+        //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8, metalness: 0.1 }), // Bottom
       ];
     const book = new THREE.Mesh(geometry, materials);
 
@@ -92,7 +97,7 @@ const Book: React.FC = () => {
         ref={mountRef}
         style={{
           flex: '1',  // Makes the Three.js container take the remaining height
-          maxHeight: '900px', // You can limit the height if needed
+          maxHeight: '800px', // You can limit the height if needed
         }}
       ></div>
     </div>
