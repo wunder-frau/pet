@@ -1,247 +1,246 @@
-body {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-height: 100vh;
-	margin: 0;
-	background: #FFFFE8;
-}
+	body {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 100vh;
+		margin: 0;
+		background: #FFFFE8;
+	}
 
-.App {
-	text-align: center;
-	max-width: 600px;
-	width: 100%;
-	background: #FFFFE8;
-	border-radius: 10px;
-	border: 5px solid #AACB73;
+	.App {
+		text-align: center;
+		max-width: 600px;
+		width: 100%;
+		/* background: #FFFFE8; */
+		border-radius: 10px;
+		border: 5px solid #AACB73;
+		padding: 20px;
+		box-shadow: 10px 10px 10px gray;
+		animation: border-shiver 2s infinite;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+
+	@keyframes border-shiver {
+		0% {
+			border-radius: 10px;
+		}
+		50% {
+			border-radius: 12px;
+		}
+		100% {
+			border-radius: 10px;
+		}
+	}
+
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	li {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		margin: 10px 0;
+		background-color: #FFFFFF;
+		border-radius: 8px;
+		padding: 10px;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		color: #6b8049;
+	}
+
+	h1 {
+		/*color: #AACB73;*/
+		color: #8cc138;
+		animation: shiver 1s infinite alternate;
+		display: inline-block;
+		margin-bottom: 20px;
+	}
+
+	h1 span {
+		display: inline-block;
+		animation: jump 0.6s infinite;
+		animation-delay: calc(0.1s * var(--index));
+	}
+
+	.checkbox-count {
+		color: #AACB73;
+		animation: shiver 1s infinite alternate;
+		display: inline-block;
+	}
+
+	.counter-container {
+		margin-top: 20px;
+		text-align: center;
+	}
+
+	@keyframes shiver {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(1deg);
+		}
+	}
+
+	@keyframes jump {
+		0%, 100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-10px);
+		}
+	}
+
+	input[type="checkbox"] {
+		margin-right: 10px;
+		accent-color: #AACB73;
+		animation: shiver 1s infinite alternate;
+	}
+
+	button {
+		margin-left: 10px;
+		padding: 5px 10px;
+		cursor: pointer;
+		background-color: #AACB73;
+		color: #FFFFFF;
+		border: none;
+		border-radius: 5px;
+		transition: background-color 0.3s;
+	}
+
+	button:hover {
+		background-color: #AACB73;
+	}
+
+	.completed-count {
+		color: #FFFFFF;
+		background: #AACB73;
+		border-radius: 8px;
+		padding: 5px 10px;
+		font-size: 1rem;
+		font-weight: bold;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		display: inline-block;
+		margin: 0 auto;
+		position: relative;
+	}
+
+	.reading-estimator {
+	max-width: 400px;
+	margin: 20px auto;
 	padding: 20px;
-	box-shadow: 10px 10px 10px gray;
-	animation: border-shiver 2s infinite;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-}
-
-@keyframes border-shiver {
-	0% {
-		border-radius: 10px;
-	}
-	50% {
-		border-radius: 12px;
-	}
-	100% {
-		border-radius: 10px;
-	}
-}
-
-ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-li {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	margin: 10px 0;
-	background-color: #FFFFFF;
-	border-radius: 8px;
-	padding: 10px;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	color: #6b8049;
-}
-
-h1 {
-	/*color: #AACB73;*/
-	color: #8cc138;
-	animation: shiver 1s infinite alternate;
-	display: inline-block;
-	margin-bottom: 20px;
-}
-
-h1 span {
-	display: inline-block;
-	animation: jump 0.6s infinite;
-	animation-delay: calc(0.1s * var(--index));
-}
-
-.checkbox-count {
-	color: #AACB73;
-	animation: shiver 1s infinite alternate;
-	display: inline-block;
-}
-
-.counter-container {
-	margin-top: 20px;
+	border: 2px solid #AACB73;
+	border-radius: 10px;
+	background: #f4f4f4;
 	text-align: center;
-}
-
-@keyframes shiver {
-	0% {
-		transform: rotate(0deg);
 	}
-	100% {
-		transform: rotate(1deg);
-	}
-}
 
-@keyframes jump {
-	0%, 100% {
-		transform: translateY(0);
+	label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 10px;
 	}
-	50% {
-		transform: translateY(-10px);
+
+	input {
+	padding: 8px;
+	margin-top: 5px;
+	font-size: 1rem;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	width: calc(100% - 16px);
 	}
-}
 
-input[type="checkbox"] {
-	margin-right: 10px;
-	accent-color: #AACB73;
-	animation: shiver 1s infinite alternate;
-}
-
-button {
-	margin-left: 10px;
-	padding: 5px 10px;
-	cursor: pointer;
+	button {
+	margin-top: 15px;
+	padding: 10px;
+	font-size: 1rem;
 	background-color: #AACB73;
-	color: #FFFFFF;
+	color: #fff;
 	border: none;
 	border-radius: 5px;
-	transition: background-color 0.3s;
-}
+	cursor: pointer;
+	}
 
-button:hover {
-	background-color: #AACB73;
-}
+	button:hover {
+	background-color: #8CA661;
+	}
 
-.completed-count {
-	color: #FFFFFF;
-	background: #AACB73;
-	border-radius: 8px;
-	padding: 5px 10px;
-	font-size: 1rem;
-	font-weight: bold;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	display: inline-block;
-	margin: 0 auto;
-	position: relative;
-}
+	.result {
+	margin-top: 20px;
+	font-size: 1.2rem;
+	color: #333;
+	}
 
-.reading-estimator {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  border: 2px solid #AACB73;
-  border-radius: 10px;
-  background: #f4f4f4;
-  text-align: center;
-}
-
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 10px;
-}
-
-input {
-  padding: 8px;
-  margin-top: 5px;
-  font-size: 1rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  width: calc(100% - 16px);
-}
-
-button {
-  margin-top: 15px;
-  padding: 10px;
-  font-size: 1rem;
-  background-color: #AACB73;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #8CA661;
-}
-
-.result {
-  margin-top: 20px;
-  font-size: 1.2rem;
-  color: #333;
-}
-
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  z-index: 1010;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 1020;
-  color: #333;
-}
-
-.open-estimator-button {
-  margin: 20px 0;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: #AACB73;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.open-estimator-button:hover {
-  background-color: #8CA661;
-}
-
-
-/* In your CSS file (e.g., App.css or another stylesheet) */
-
-.app-container {
+	.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
 	display: flex;
-	justify-content: center; /* Center the bookshelf container */
-	align-items: center; /* Vertically center */
-	height: 100vh; /* Full viewport height */
-  }
-  
-  .bookshelf-container {
-	width: 800px; /* Set fixed width for the container */
-	height: 600px; /* Set fixed height for the container */
-	position: relative; /* Ensure the 3D canvas fits inside */
-	border: 1px solid #ccc; /* Optional: add a border to the container */
-	overflow: hidden; /* Ensure content doesn't overflow */
-  }
-  
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	}
+
+	.modal-content {
+	background: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	max-width: 500px;
+	width: 100%;
+	text-align: center;
+	position: relative;
+	z-index: 1010;
+	}
+
+	.close-button {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+	z-index: 1020;
+	color: #333;
+	}
+
+	.open-estimator-button {
+	margin: 20px 0;
+	padding: 10px 20px;
+	font-size: 1rem;
+	background-color: #AACB73;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	}
+
+	.open-estimator-button:hover {
+	background-color: #8CA661;
+	}
+
+	.app-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		/* border: 1px solid #ccc; */
+		overflow: hidden; 
+		/* height: 100vh; */
+	}
+	
+	.bookshelf-container {
+		width: 1000px; 
+		height: 800px;
+		position: relative;
+		overflow: hidden;
+	}
+	

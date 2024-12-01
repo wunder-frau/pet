@@ -74,10 +74,9 @@ const App: React.FC = () => {
 	const completedCount = toreads.filter(toread => toread.completed).length;
 	return (
 		<>
-			{/* <div className="bookshelf"> */}
-				<ThreeBookshelf books={toreads} />
+			<ThreeBookshelf books={toreads} />
 				{/* <BookTest/> */}
-			{/* </div> */}
+			<div className="app-container">
 			<Bookshelf books={toreads} />
 			{isEstimatorVisible && (
 				<div className="modal">
@@ -108,6 +107,7 @@ const App: React.FC = () => {
 						count is {count}
 					</button>
 				</p>
+			</div>
 			</div>
 		</>
 	);
