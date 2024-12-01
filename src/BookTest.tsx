@@ -3,8 +3,8 @@ import * as THREE from 'three';
 
 const Book: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [textureLoaded, setTextureLoaded] = useState(false); // Track texture loading state
-  const bookRef = useRef<THREE.Mesh | null>(null); // Reference to the book mesh
+  const [textureLoaded, setTextureLoaded] = useState(false);
+  const bookRef = useRef<THREE.Mesh | null>(null);
 
   useEffect(() => {
     const mountNode = mountRef.current;
@@ -12,7 +12,7 @@ const Book: React.FC = () => {
 
     // Scene
     const scene = new THREE.Scene();
-    scene.background = null; // Ensure the background is transparent
+    scene.background = null;
 
     // Camera
     const camera = new THREE.PerspectiveCamera(60, mountNode.clientWidth / mountNode.clientHeight, 0.1, 1000);
@@ -36,48 +36,52 @@ const Book: React.FC = () => {
 
     // Load texture and set loading state
     const textureLoader = new THREE.TextureLoader();
+    const texture_side = textureLoader.load(
+      '/images/6.jpg',
+      () => {
+        setTextureLoaded(true);
+      },
+      undefined,
+      (error) => {
+        console.error("Texture loading failed", error);
+      }
+    )
     const texture = textureLoader.load(
       '/images/4.jpeg',
       () => {
-        // Texture loaded successfully, update state
         setTextureLoaded(true);
       },
-      undefined, // Optional progress function
+      undefined,
       (error) => {
         console.error("Texture loading failed", error);
       }
     );
 
-    // Geometry & Materials for Book (only use texture when it's fully loaded)
     const geometry = new THREE.BoxGeometry(3, 4, 0.3);
     const materials = [
-      new THREE.MeshStandardMaterial({ color: 0xff6347, roughness: 0.8, metalness: 0.1 }), // Back cover
+      new THREE.MeshStandardMaterial({ map: texture_side, roughness: 0.5, metalness: 0.5 }),
       new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
-      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.2 }), // Edges
-      new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.5, metalness: 0.2 }), // Top
-      new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),    // Front cover
+      new THREE.MeshStandardMaterial({ map: texture_side, roughness: 0.5, metalness: 0.5 }),
+      new THREE.MeshStandardMaterial({ map: texture_side, roughness: 0.5, metalness: 0.5 }),
+      new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
       new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
     ];
     const book = new THREE.Mesh(geometry, materials);
     bookRef.current = book;
     scene.add(book);
 
-    // Scroll event handler
     const onScroll = () => {
       if (textureLoaded) {
-        const scrollY = window.scrollY; // Get the scroll position
-        const rotationSpeed = 0.01; // Adjust this to control the rotation speed
+        const scrollY = window.scrollY;
+        const rotationSpeed = 0.01;
         if (bookRef.current) {
-          // Rotate the book based on scroll position
           bookRef.current.rotation.y = scrollY * rotationSpeed; 
         }
       }
     };
 
-    // Add scroll event listener
     window.addEventListener('scroll', onScroll);
 
-    // Animation loop
     const animate = () => {
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
@@ -85,7 +89,6 @@ const Book: React.FC = () => {
 
     animate();
 
-    // Handle window resizing
     const onResize = () => {
       const { clientWidth, clientHeight } = mountNode;
       renderer.setSize(clientWidth, clientHeight);
