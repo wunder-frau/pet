@@ -3,10 +3,8 @@ import * as THREE from 'three';
 
 const Book: React.FC = () => {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [isRotating, setIsRotating] = useState(false); // Track rotation state
+  const [textureLoaded, setTextureLoaded] = useState(false); // Track texture loading state
   const bookRef = useRef<THREE.Mesh | null>(null); // Reference to the book mesh
-  const raycaster = useRef<THREE.Raycaster>(new THREE.Raycaster()); // Raycaster reference
-  const mouse = useRef(new THREE.Vector2()); // Mouse position reference
 
   useEffect(() => {
     const mountNode = mountRef.current;
@@ -36,65 +34,52 @@ const Book: React.FC = () => {
     const ambientLight = new THREE.AmbientLight(0xffffff, 2);
     scene.add(ambientLight);
 
-    // Load local texture
+    // Load texture and set loading state
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load('/images/4.jpeg', (tex) => {
-      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    });
+    const texture = textureLoader.load(
+      '/images/4.jpeg',
+      () => {
+        // Texture loaded successfully, update state
+        setTextureLoaded(true);
+      },
+      undefined, // Optional progress function
+      (error) => {
+        console.error("Texture loading failed", error);
+      }
+    );
 
-    // Geometry & Materials for Book
+    // Geometry & Materials for Book (only use texture when it's fully loaded)
     const geometry = new THREE.BoxGeometry(3, 4, 0.3);
     const materials = [
-        new THREE.MeshStandardMaterial({ color: 0xff6347, roughness: 0.8, metalness: 0.1 }), // Back cover
-        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
-        // new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.6, metalness: 0.1 }), // Spine
-        new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.2 }), // Edges
-        new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.5, metalness: 0.2 }), // Top
-        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),    // Front cover
-        new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
-        //new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8, metalness: 0.1 }), // Bottom
-      ];
+      new THREE.MeshStandardMaterial({ color: 0xff6347, roughness: 0.8, metalness: 0.1 }), // Back cover
+      new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
+      new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0.2 }), // Edges
+      new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.5, metalness: 0.2 }), // Top
+      new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),    // Front cover
+      new THREE.MeshStandardMaterial({ map: texture, roughness: 0.5, metalness: 0.5 }),
+    ];
     const book = new THREE.Mesh(geometry, materials);
     bookRef.current = book;
     scene.add(book);
 
-    // Mouse click event handler
-    const onMouseClick = (event: MouseEvent) => {
-      // Normalize mouse coordinates to [-1, 1]
-      mouse.current.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.current.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-      // Update the raycaster with mouse position and camera
-      raycaster.current.setFromCamera(mouse.current, camera);
-
-      // Check for intersections with the book
-      const intersects = raycaster.current.intersectObject(book);
-
-      if (intersects.length > 0) {
-        setIsRotating(true); // Start rotation when the book is clicked
+    // Scroll event handler
+    const onScroll = () => {
+      if (textureLoaded) {
+        const scrollY = window.scrollY; // Get the scroll position
+        const rotationSpeed = 0.01; // Adjust this to control the rotation speed
+        if (bookRef.current) {
+          // Rotate the book based on scroll position
+          bookRef.current.rotation.y = scrollY * rotationSpeed; 
+        }
       }
     };
 
-    // Add mouse click event listener
-    window.addEventListener('click', onMouseClick);
+    // Add scroll event listener
+    window.addEventListener('scroll', onScroll);
 
     // Animation loop
-    let rotationAmount = 0; // Track the rotation progress
     const animate = () => {
       requestAnimationFrame(animate);
-
-      if (isRotating) {
-        if (rotationAmount < Math.PI * 2) {
-          // Rotate the book 360 degrees
-          if (bookRef.current) {
-            bookRef.current.rotation.y += 0.02; // Slow rotation speed
-          }
-          rotationAmount += 0.05;
-        } else {
-          setIsRotating(false); // Stop rotation after 360 degrees
-        }
-      }
-
       renderer.render(scene, camera);
     };
 
@@ -114,12 +99,13 @@ const Book: React.FC = () => {
     // Cleanup
     return () => {
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('click', onMouseClick);
+      window.removeEventListener('scroll', onScroll);
       if (mountNode) {
         mountNode.removeChild(renderer.domElement);
       }
+      renderer.dispose();
     };
-  }, [isRotating]);
+  }, [textureLoaded]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
